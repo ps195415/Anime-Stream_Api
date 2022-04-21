@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/form.css">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body onload="laad()">
+    <section>
+        <div class="container">
+            <div>
+                <label for="fname">Title</label>
+                <input type="text" id="title" name="title" placeholder="Title..">
+
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author" placeholder="author name..">
+
+                <label for="release_date">Release date</label>
+                <input type="date" id="release_date" name="release_date" placeholder="release date..">
+
+                <label for="Genre">genre</label>
+                <select id="genre_id" name="genre_id">
+                </select>
+
+                <label for="Status">Status</label>
+                <input type="text" id="status" name="status" placeholder="Status..">
+
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image" placeholder="image..">
+
+                <label for="subject">description</label>
+                <textarea id="description" name="description" placeholder="Write something.."
+                    style="height:200px"></textarea>
+
+                <button onclick="voegToe()">Toevogen</button>
+            </div>
+        </div>
+    </section>
+
+</body>
+    <script src="assets/js/script.js">
+    </script>
+
+</html>
