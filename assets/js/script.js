@@ -1,19 +1,32 @@
 const API_KEY = 'api_key=1cf50e6248dc270629e802686245c2c8';
-const BASE_URL = 'http://localhost:8000/api/';
+const BASE_URL = 'https://nickel-typewriter.000webhostapp.com/api/';
 const API_Anime = BASE_URL + 'animes';
-const API_Genre = BASE_URL + 'genres/';
-const API_Genrex = BASE_URL + 'genre/';
-const IMG_URL = 'http://localhost:8000/image/';
+const API_Genrex = BASE_URL + 'genre';
+const API_Genre = BASE_URL + 'genres';
+const IMG_URL = 'https://nickel-typewriter.000webhostapp.com/image/';
+
 
 const laadGenre = async () => {
-    const response = await axios.get(API_Genre)
-    const json = await response.data
-    let nieuweInhoud = ''
-    json.map(el => {
-        nieuweInhoud += `<option value="${el.id}">${el.name}</option>`
-    })
-    document.querySelector("#genre_id").innerHTML = nieuweInhoud
-    console.log(json)
+    try {
+        const response = await fetch(API_Genre, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': '*/*',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET,POST,PATCH'
+            }
+        })
+        const json = await response.json();
+        let nieuweInhoud = ''
+        json.map(el => {
+            nieuweInhoud += `<option value="${el.id}">${el.name}</option>`
+        })
+        document.querySelector("#genre_id").innerHTML = nieuweInhoud
+        console.log(json)
+    } catch (e) {
+
+    }
+
 }
 
 const voegToe = async () => {
@@ -24,9 +37,9 @@ const voegToe = async () => {
     const Status = document.querySelector("#status").value
     const imagefile = document.querySelector('#image');
     const description = document.querySelector("#description").value
-    
+
     var formData = new FormData();
-    
+
     formData.append("image", imagefile.files[0]);
     formData.append("title", title);
     formData.append("description", description);
@@ -34,12 +47,13 @@ const voegToe = async () => {
     formData.append("release_date", release_date);
     formData.append("genre_id", genre);
     formData.append("status", Status);
-    
+
     axios.post(API_Anime, formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     })
+    window.location.href = "index.html"
 }
 
 const genres = [
@@ -80,8 +94,8 @@ function setGenre() {
         t.innerText = genre.name;
         t.addEventListener('click', () => {
             console.log(genre.id)
-            selectedGenre = genre.id;  
-            OnStart()          
+            selectedGenre = genre.id;
+            OnStart()
         })
         tagsEl.append(t);
     })
@@ -112,16 +126,16 @@ function showMovies(data) {
             <div class="overview">
                 <h3>${title}</h3>
                 <p>${description}</p>
-                <button class="know-more" id="${id}">Know More</button
+                <button class="know-more" id="${id}">Delete Anime</button
             </div>
         
         `
         main.appendChild(movieEl);
 
-       /* document.getElementById(id).addEventListener('click', () => {
+        document.getElementById(id).addEventListener('click', () => {
             console.log(id)
-            openNav(el)
-        })*/
+            Delete(id)
+        })
     })
 }
 
@@ -129,14 +143,27 @@ async function laad() {
     await laadGenre()
 }
 
-async function OnStart(){
-    if(selectedGenre >= 1){
+async function OnStart() {
+    if (selectedGenre >= 1) {
         getMovies(API_Genrex + selectedGenre + '/animes')
     }
-    else{
+    else {
         getMovies(API_Anime);
     }
-    
+
+}
+
+
+async function OnLoad() {
+    await laadGenre()
+
+}
+
+const Delete = async (id) => {
+    console.log("verwijder: ", id)
+    const respons = await axios.post(API_Anime + "/" + id + "?_method=DELETE")
+    console.log('status code', respons.status)
+    await laad()
 }
 
 

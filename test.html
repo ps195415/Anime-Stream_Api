@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    const API_Genre = 'https://nickel-typewriter.000webhostapp.com/api/genres/';
+    
+    const load = async () => {
+        try {
+            const response = await axios.get();
+            console.log(response);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    load()
+
+</script>
+
+</html>
